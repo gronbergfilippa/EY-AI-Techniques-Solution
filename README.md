@@ -1,26 +1,34 @@
 # EY-AI-Techniques-Solution
 ```mermaid
-flowchart LR
-    %% Step 1: Retrieving the data
+flowchart TD
     S1([Step 1:\nRetrieving the data])
-    S1 --> EU[EU Horizon & PNRR calls]
-    S1 --> SP[University strategic plans\n- SP -]
+    S1 --> EU[EU Horizon & PNRR calls\npipeline_core_methods.py]
+    S1 --> SP[University Strategic Plan\nPDF upload via app.py]
+    EU <--> SP
+
     EU --> EX[Extraction & chunking text\ninto smaller bits]
-    EX --> EMB[Sentence Embeddings\nusing Qwen3-Embedding-0.6B]
-    EMB --> VDB[Store vectors in ChromaDB]
+    SP --> EX
+    EX --> EMB[Sentence Embeddings\nQwen3-Embedding-0.6B]
+    EMB --> VDB[(ChromaDB\nvector store)]
 
-    %% Step 2: Ranking & Explanation
     VDB ==> S2([Step 2:\nRanking & Explanation])
-    S2 --> RANK[Compute similarity +\nrank top calls]
-    RANK --> XAI[XAI Layer - create\ntheme lexicon]
+    S2 --> RANK[Compute similarity score\nsemantic + coverage + consistency]
+    RANK --> XAI[XAI Layer\ntheme lexicon + gap analysis]
 
-    %% Step 3: Query, Ranking & Explanation
     XAI ==> S3([Step 3:\nQuery, Ranking & Explanation])
-    S3 --> LLM[Setting up the LLM\n+ Preparing prompt]
+    S3 --> LLM[Qwen3 LLM via Ollama\nbuild prompt + generate summary]
+    LLM --> OUT[Stakeholder briefing\nJSON + readable text output]
+    OUT --> WEB[Streamlit Web App\napp.py — upload, run, view results]
 
     classDef step    fill:#dce8f7,stroke:#2c6fad,stroke-width:2px;
-    classDef process fill:#f5f5f5,stroke:#888888,stroke-width:1.5px;
+    classDef data    fill:#fff3cd,stroke:#d4a017,stroke-width:1.5px;
+    classDef process fill:#f5f5f5,stroke:#aaaaaa,stroke-width:1.5px;
+    classDef db      fill:#e8f5e9,stroke:#2e7d32,stroke-width:1.5px;
+    classDef output  fill:#fce4ec,stroke:#c62828,stroke-width:1.5px;
 
     class S1,S2,S3 step;
-    class EU,SP,EX,EMB,RANK,XAI,LLM,VDB process;
+    class EU,SP data;
+    class EX,EMB,RANK,XAI,LLM process;
+    class VDB db;
+    class OUT,WEB output;
 ```
