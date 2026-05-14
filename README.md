@@ -2,12 +2,13 @@
 ```mermaid
 flowchart TD
     S1([Step 1:\nRetrieving the data])
-    S1 --> EU[EU Horizon & PNRR calls\npipeline_core_methods.py]
-    S1 --> SP[University Strategic Plan\nPDF upload via app.py]
-    EU <--> SP
 
-    EU --> EX[Extraction & chunking text\ninto smaller bits]
+    S1 --> EU[EU Horizon & PNRR calls]
+    S1 --> SP[University Strategic Plan\nPDF upload via Streamlit]
+
+    EU --> EX
     SP --> EX
+    EX[Extraction & chunking\ntext into smaller bits]
     EX --> EMB[Sentence Embeddings\nQwen3-Embedding-0.6B]
     EMB --> VDB[(ChromaDB\nvector store)]
 
@@ -17,8 +18,8 @@ flowchart TD
 
     XAI ==> S3([Step 3:\nQuery, Ranking & Explanation])
     S3 --> LLM[Qwen3 LLM via Ollama\nbuild prompt + generate summary]
-    LLM --> OUT[Stakeholder briefing\nJSON + readable text output]
-    OUT --> WEB[Streamlit Web App\napp.py — upload, run, view results]
+    LLM --> OUT[Stakeholder briefing\nJSON + readable text]
+    OUT --> WEB[Streamlit Web App\nupload · run · view results]
 
     classDef step    fill:#dce8f7,stroke:#2c6fad,stroke-width:2px;
     classDef data    fill:#fff3cd,stroke:#d4a017,stroke-width:1.5px;
