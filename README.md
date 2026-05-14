@@ -1,30 +1,24 @@
 # EY-AI-Techniques-Solution
 ```mermaid
-flowchart LR
-    subgraph S1 [Step 1: Retrieving the data]
-        EU[EU Horizon & PNRR calls]
-        SP[University strategic plans - SP -]
-        EU --> EX[Extraction & chunking\ntext into smaller bits]
-        EX --> EMB[Sentence Embeddings\nusing Qwen3-Embedding-0.6B]
-        EMB --> VDB[Store vectors\nin ChromaDB]
-    end
-
-    subgraph S2 [Step 2: Ranking & Explanation]
-        RANK[Compute similarity +\nrank top calls]
-        RANK --> XAI[XAI Layer - create\ntheme lexicon]
-    end
-
-    subgraph S3 [Step 3: Query, Ranking & Explanation]
-        LLM[Setting up the LLM\n+ Preparing prompt]
-    end
-
-    VDB ==> S2
-    XAI ==> S3
+flowchart TD
+    S1([Step 1:\nRetrieving the data])
+    S1 --> EU[EU Horizon & PNRR calls]
+    S1 --> SP[University strategic plans\nSP]
+    EU <--> SP
+    EU --> EX[Extraction & chunking text\ninto smaller bits]
+    EX --> EMB[Sentence Embeddings\nusing Qwen3-Embedding-0.6B]
+    EMB --> VDB[Store vectors in ChromaDB]
+    VDB ==> S2([Step 2:\nRanking & Explanation])
+    S2 --> RANK[Compute similarity +\nrank top calls]
+    RANK --> XAI[XAI Layer - create\ntheme lexicon]
+    XAI ==> S3([Step 3:\nQuery, Ranking & Explanation])
+    S3 --> LLM[Setting up the LLM\n+ Preparing prompt]
 
     classDef step    fill:#dce8f7,stroke:#2c6fad,stroke-width:2px;
+    classDef data    fill:#fff3cd,stroke:#d4a017,stroke-width:1.5px;
     classDef process fill:#f5f5f5,stroke:#aaaaaa,stroke-width:1.5px;
+
     class S1,S2,S3 step;
-    class EU,SP,EX,EMB,VDB,RANK,XAI,LLM process;
+    class EU,SP data;
+    class EX,EMB,VDB,RANK,XAI,LLM process;
 ```
-
-
